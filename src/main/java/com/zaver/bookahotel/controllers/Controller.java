@@ -1,4 +1,4 @@
-package controllers;
+package com.zaver.bookahotel.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import repo.RoomRepository;
+import com.zaver.bookahotel.repo.RoomRepository;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class Controller {
 
     @GetMapping("/SearchRooms")
     public List<Long> searchRooms(@RequestParam(name = "date") long date,
-                                  @RequestParam(name = "numberOfBeds")int numberOfBeds) {
+                                  @RequestParam(name = "numberOfBeds") int numberOfBeds) {
 
         return null;
     }
@@ -31,7 +31,7 @@ public class Controller {
         return 0;
     }
 
-    @GetMapping("/SearchRooms")
+    @GetMapping("/SearchBookings")
     public List<Long> searchBookings(@RequestParam(name = "date") long date) {
 
         return null;
