@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS rooms;
+
+CREATE TABLE rooms (
+  room_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  number_of_beds BIGINT,
+  price BIGINT
+);
