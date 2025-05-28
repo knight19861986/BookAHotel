@@ -1,8 +1,13 @@
 package com.zaver.bookahotel.controllers;
 
+import com.zaver.bookahotel.DTO.request.BookRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,28 +23,29 @@ public class Controller {
     @Autowired
     private RoomRepository RoomRepo;
 
-    @GetMapping("/SearchRooms")
-    public List<Long> searchRooms(@RequestParam(name = "date") long date,
+    @GetMapping("/rooms")
+    public List<Long> searchRooms(@RequestParam(name = "dateFrom") long dateFrom,
+                                  @RequestParam(name = "dateTo") long dateTo,
                                   @RequestParam(name = "numberOfBeds") int numberOfBeds) {
 
         return null;
     }
 
-    @PostMapping("/BookRoom")
-    public long bookRoom(@RequestParam(name = "roomId") long roomId) {
+    @PostMapping("/book")
+    public long bookRoom(@RequestBody BookRequest request) {
 
         return 0;
     }
 
-    @GetMapping("/SearchBookings")
-    public List<Long> searchBookings(@RequestParam(name = "date") long date) {
+    @GetMapping("/bookings")
+    public List<Long> searchBookings(@RequestParam(name = "dateFrom") long dateFrom,
+                                     @RequestParam(name = "dateTo") long dateTo) {
 
         return null;
     }
 
-    @PostMapping("/cancelBooking")
-    public void cancelBooking(@RequestParam(name = "bookingId") long bookingId) {
-
-
+    @DeleteMapping("/{bookingId}")
+    public ResponseEntity<Void> cancelBooking(@PathVariable long bookingId) {
+        return ResponseEntity.noContent().build();
     }
 }
