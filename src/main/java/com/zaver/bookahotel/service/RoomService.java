@@ -2,6 +2,7 @@ package com.zaver.bookahotel.service;
 
 import com.zaver.bookahotel.DTO.RoomDTO;
 import com.zaver.bookahotel.DTO.mapper.DTOMapper;
+import com.zaver.bookahotel.model.Booking;
 import com.zaver.bookahotel.model.Room;
 import com.zaver.bookahotel.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,28 @@ public class RoomService {
 
     public List<RoomDTO> getAllRooms() {
         return repo.findAll()
-                .stream().map(DTOMapper::mapRoomToDTO).collect(Collectors.toList());
+                .stream()
+                .map(DTOMapper::mapRoomToDTO)
+                .collect(Collectors.toList());
     }
 
     public List<RoomDTO> getAvailableRooms(Long dateFrom, Long dateTo, Integer numberOfBeds) {
+        if (dateFrom >= dateTo) {
+            throw new IllegalArgumentException("fromDate must be earlier than toDate");
+        }
         return repo.findByNumberOfBeds(numberOfBeds)
-                .stream().map(DTOMapper::mapRoomToDTO).collect(Collectors.toList());
+                .stream()
+                .filter(room -> roomIsAvailable(room, dateFrom, dateTo))
+                .map(DTOMapper::mapRoomToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private boolean roomIsAvailable (Room room, Long dateFrom, Long dateTo){
+        for(Booking booking : room.getBookings()){
+            if(dateTo > booking.getFromDate() || dateFrom < booking.getToDate()){
+                return false;
+            }
+        }
+        return true;
     }
 }

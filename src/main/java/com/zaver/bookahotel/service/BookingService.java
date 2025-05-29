@@ -17,18 +17,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
-
     @Autowired
     private RoomRepository roomRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
 
-    public List<BookingDTO> getBookingsWithinRange(Long fromInclusive, Long toInclusive) {
-        return bookingRepository.findByFromDateGreaterThanEqualAndToDateLessThanEqual(fromInclusive, toInclusive)
+    public List<BookingDTO> getBookingsWithinRange(Long fromDate, Long toDate) {
+        if (fromDate >= toDate) {
+            throw new IllegalArgumentException("fromDate must be earlier than toDate");
+        }
+
+        return bookingRepository.findByFromDateGreaterThanEqualAndToDateLessThanEqual(fromDate, toDate)
                 .stream().map(DTOMapper::mapBookingToDTO).collect(Collectors.toList());
     }
-
 
     public Long createBooking(BookRequest request) {
         if (request.getFromDate() >= request.getToDate()) {
