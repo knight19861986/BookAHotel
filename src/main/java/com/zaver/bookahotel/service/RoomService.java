@@ -39,10 +39,9 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    //Not correct
     public static boolean roomIsAvailable(Room room, Long dateFrom, Long dateTo) {
         for (Booking booking : room.getBookings()) {
-            if (dateTo > booking.getFromDate() || dateFrom < booking.getToDate()) {
+            if (!(dateTo <= booking.getFromDate() || dateFrom >= booking.getToDate())) {
                 return false;
             }
         }
