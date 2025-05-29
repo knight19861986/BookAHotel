@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS rooms;
+--DROP TABLE IF EXISTS rooms;
 
-CREATE TABLE rooms (
+CREATE TABLE IF NOT EXISTS rooms (
   room_id BIGINT AUTO_INCREMENT PRIMARY KEY,
   number_of_beds BIGINT,
   price BIGINT

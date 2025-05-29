@@ -1,36 +1,34 @@
 package com.zaver.bookahotel.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "rooms")
 public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long roomId;
+    private Long roomId;
 
-    @Column()
-    private long numberOfBeds;
+    @Column(nullable = false)
+    private Long numberOfBeds;
 
-    @Column()
-    private long price;
+    @Column(nullable = false)
+    private Long price;
 
-    @OneToMany
-    @JoinTable(
-            name = "room_booking",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @ManyToMany(mappedBy = "rooms")
     private Set<Booking> bookings = new HashSet<>();
 }

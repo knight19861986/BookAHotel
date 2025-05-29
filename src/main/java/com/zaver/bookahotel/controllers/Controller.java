@@ -1,6 +1,8 @@
 package com.zaver.bookahotel.controllers;
 
 import com.zaver.bookahotel.DTO.request.BookRequest;
+import com.zaver.bookahotel.service.BookingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,15 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.zaver.bookahotel.repo.RoomRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class Controller {
 
-    @Autowired
-    private RoomRepository RoomRepo;
+    private final BookingService bookingService;
 
     @GetMapping("/rooms")
     public List<Long> searchRooms(@RequestParam(name = "dateFrom") long dateFrom,
@@ -32,9 +35,9 @@ public class Controller {
     }
 
     @PostMapping("/book")
-    public long bookRoom(@RequestBody BookRequest request) {
-
-        return 0;
+    public ResponseEntity<Long> bookRoom(@Valid @RequestBody BookRequest request) {
+        Long bookId = bookingService.createBooking(request);
+        return ResponseEntity.ok(bookId);
     }
 
     @GetMapping("/bookings")
@@ -46,6 +49,7 @@ public class Controller {
 
     @DeleteMapping("/{bookingId}")
     public ResponseEntity<Void> cancelBooking(@PathVariable long bookingId) {
+        bookingService.cancelBooking(bookingId);
         return ResponseEntity.noContent().build();
     }
 }
