@@ -3,6 +3,7 @@ package com.zaver.bookahotel.service;
 import com.zaver.bookahotel.DTO.BookingDTO;
 import com.zaver.bookahotel.DTO.mapper.DTOMapper;
 import com.zaver.bookahotel.DTO.request.BookRequest;
+import com.zaver.bookahotel.exception.RoomIsNotAvailableException;
 import com.zaver.bookahotel.model.Booking;
 import com.zaver.bookahotel.model.Room;
 import com.zaver.bookahotel.repo.BookingRepository;
@@ -43,9 +44,17 @@ public class BookingService {
             throw new IllegalArgumentException("One or more room IDs are invalid");
         }
 
+        Long fromDate = request.getFromDate();
+        Long toDate = request.getToDate();
+
+        for(Room room:rooms){
+            if(!RoomService.roomIsAvailable(room, fromDate, toDate))
+                throw new RoomIsNotAvailableException("Room " + room.getRoomId() + " is not available");
+        }
+
         Booking booking = new Booking();
-        booking.setFromDate(request.getFromDate());
-        booking.setToDate(request.getToDate());
+        booking.setFromDate(fromDate);
+        booking.setToDate(toDate);
         booking.setRooms(rooms);
 
         Booking saved = bookingRepository.save(booking);

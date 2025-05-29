@@ -28,16 +28,21 @@ public class RoomService {
         if (dateFrom >= dateTo) {
             throw new IllegalArgumentException("fromDate must be earlier than toDate");
         }
-        return repo.findByNumberOfBeds(numberOfBeds)
+
+        List<Room> rooms = (numberOfBeds != null) ?
+                repo.findByNumberOfBeds(numberOfBeds) : repo.findAll();
+
+        return rooms
                 .stream()
                 .filter(room -> roomIsAvailable(room, dateFrom, dateTo))
                 .map(DTOMapper::mapRoomToDTO)
                 .collect(Collectors.toList());
     }
 
-    private boolean roomIsAvailable (Room room, Long dateFrom, Long dateTo){
-        for(Booking booking : room.getBookings()){
-            if(dateTo > booking.getFromDate() || dateFrom < booking.getToDate()){
+    //Not correct
+    public static boolean roomIsAvailable(Room room, Long dateFrom, Long dateTo) {
+        for (Booking booking : room.getBookings()) {
+            if (dateTo > booking.getFromDate() || dateFrom < booking.getToDate()) {
                 return false;
             }
         }
