@@ -47,7 +47,7 @@ public class Controller {
         return null;
     }
 
-    @DeleteMapping("/{bookingId}")
+    @DeleteMapping("/book/{bookingId}")
     public ResponseEntity<Void> cancelBooking(@PathVariable long bookingId) {
         bookingService.cancelBooking(bookingId);
         return ResponseEntity.noContent().build();
