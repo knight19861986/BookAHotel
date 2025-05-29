@@ -2,6 +2,6 @@
 
 CREATE TABLE IF NOT EXISTS rooms (
   room_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  number_of_beds BIGINT,
-  price BIGINT
+  number_of_beds INT,
+  price FLOAT
 );

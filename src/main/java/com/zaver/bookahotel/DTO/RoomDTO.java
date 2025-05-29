@@ -1,9 +1,12 @@
 package com.zaver.bookahotel.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class RoomDTO {
-    private long roomId;
-    private long numberOfBeds;
+    private Long roomId;
+    private Integer numberOfBeds;
+    private Float price;
 }

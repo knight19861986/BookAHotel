@@ -1,7 +1,11 @@
 package com.zaver.bookahotel.controllers;
 
+import com.zaver.bookahotel.DTO.BookingDTO;
+import com.zaver.bookahotel.DTO.RoomDTO;
 import com.zaver.bookahotel.DTO.request.BookRequest;
+import com.zaver.bookahotel.model.Booking;
 import com.zaver.bookahotel.service.BookingService;
+import com.zaver.bookahotel.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +28,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Controller {
 
-    private final BookingService bookingService;
+    @Autowired
+    private RoomService roomService;
+
+    @Autowired
+    private BookingService bookingService;
 
     @GetMapping("/rooms")
-    public List<Long> searchRooms(@RequestParam(name = "dateFrom") long dateFrom,
-                                  @RequestParam(name = "dateTo") long dateTo,
-                                  @RequestParam(name = "numberOfBeds") int numberOfBeds) {
+    public ResponseEntity<List<RoomDTO>> searchRooms(@RequestParam(name = "dateFrom") long dateFrom,
+                                                     @RequestParam(name = "dateTo") long dateTo,
+                                                     @RequestParam(name = "numberOfBeds") int numberOfBeds) {
 
-        return null;
+        return ResponseEntity.ok(roomService.getAvailableRooms(dateFrom, dateTo, numberOfBeds));
     }
 
     @PostMapping("/book")
@@ -41,10 +49,9 @@ public class Controller {
     }
 
     @GetMapping("/bookings")
-    public List<Long> searchBookings(@RequestParam(name = "dateFrom") long dateFrom,
-                                     @RequestParam(name = "dateTo") long dateTo) {
-
-        return null;
+    public ResponseEntity<List<BookingDTO>> searchBookings(@RequestParam(name = "dateFrom") long dateFrom,
+                                                           @RequestParam(name = "dateTo") long dateTo) {
+        return ResponseEntity.ok(bookingService.getBookingsWithinRange(dateFrom, dateTo));
     }
 
     @DeleteMapping("/book/{bookingId}")

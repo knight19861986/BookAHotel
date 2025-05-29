@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    List<Room> findByNumberOfBeds(Long numberOfBeds);
+    List<Room> findByNumberOfBeds(Integer numberOfBeds);
 
 }

@@ -24,10 +24,10 @@ public class Room {
     private Long roomId;
 
     @Column(nullable = false)
-    private Long numberOfBeds;
+    private Integer numberOfBeds;
 
     @Column(nullable = false)
-    private Long price;
+    private Float price;
 
     @ManyToMany(mappedBy = "rooms")
     private Set<Booking> bookings = new HashSet<>();
