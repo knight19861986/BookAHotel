@@ -25,13 +25,12 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-    //Not correct
     public List<BookingDTO> getBookingsWithinRange(LocalDate fromDate, LocalDate toDate) {
         if (!fromDate.isBefore(toDate)) {
             throw new IllegalArgumentException("fromDate must be earlier than toDate");
         }
 
-        return bookingRepository.findByFromDateGreaterThanEqualAndToDateLessThanEqual(fromDate, toDate)
+        return bookingRepository.findByToDateGreaterThanEqualAndFromDateLessThanEqual(fromDate, toDate)
                 .stream().map(DTOMapper::mapBookingToDTO).collect(Collectors.toList());
     }
 
