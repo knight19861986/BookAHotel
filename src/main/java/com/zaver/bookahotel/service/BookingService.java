@@ -11,6 +11,7 @@ import com.zaver.bookahotel.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,8 +25,9 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-    public List<BookingDTO> getBookingsWithinRange(Long fromDate, Long toDate) {
-        if (fromDate >= toDate) {
+    //Not correct
+    public List<BookingDTO> getBookingsWithinRange(LocalDate fromDate, LocalDate toDate) {
+        if (!fromDate.isBefore(toDate)) {
             throw new IllegalArgumentException("fromDate must be earlier than toDate");
         }
 
@@ -34,7 +36,7 @@ public class BookingService {
     }
 
     public Long createBooking(BookRequest request) {
-        if (request.getFromDate() >= request.getToDate()) {
+        if (!request.getFromDate().isBefore(request.getToDate())) {
             throw new IllegalArgumentException("fromDate must be earlier than toDate");
         }
 
@@ -44,8 +46,8 @@ public class BookingService {
             throw new IllegalArgumentException("One or more room IDs are invalid");
         }
 
-        Long fromDate = request.getFromDate();
-        Long toDate = request.getToDate();
+        LocalDate fromDate = request.getFromDate();
+        LocalDate toDate = request.getToDate();
 
         for(Room room:rooms){
             if(!RoomService.roomIsAvailable(room, fromDate, toDate))

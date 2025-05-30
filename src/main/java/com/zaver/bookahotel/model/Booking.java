@@ -12,9 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -27,10 +26,10 @@ public class Booking {
     private Long bookId;
 
     @Column(nullable = false)
-    private Long fromDate;
+    private LocalDate fromDate;
 
     @Column(nullable = false)
-    private Long toDate;
+    private LocalDate toDate;
 
     @ManyToMany
     @JoinTable(
