@@ -37,7 +37,7 @@ public class Controller {
     @GetMapping("/rooms")
     public ResponseEntity<List<RoomDTO>> searchRooms(
             @RequestParam(name = "dateFrom", required = false, defaultValue = "0") Long dateFrom,
-            @RequestParam(name = "dateTo", required = false, defaultValue = "100") Long dateTo,
+            @RequestParam(name = "dateTo", required = false, defaultValue = "9223372036854775807") Long dateTo,
             @RequestParam(name = "numberOfBeds", required = false) Integer numberOfBeds) {
 
         return ResponseEntity.ok(roomService.getAvailableRooms(dateFrom, dateTo, numberOfBeds));
@@ -50,8 +50,9 @@ public class Controller {
     }
 
     @GetMapping("/bookings")
-    public ResponseEntity<List<BookingDTO>> searchBookings(@RequestParam(name = "dateFrom") Long dateFrom,
-                                                           @RequestParam(name = "dateTo") Long dateTo) {
+    public ResponseEntity<List<BookingDTO>> searchBookings(
+            @RequestParam(name = "dateFrom", required = false, defaultValue = "0") Long dateFrom,
+            @RequestParam(name = "dateTo", required = false, defaultValue = "9223372036854775807") Long dateTo) {
         return ResponseEntity.ok(bookingService.getBookingsWithinRange(dateFrom, dateTo));
     }
 
